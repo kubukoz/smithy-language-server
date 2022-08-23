@@ -92,7 +92,7 @@ public final class Document {
                     lastUseStatement);
         }
 
-        boolean blankSeparated = endOfPreamble == -1 || lines.get(endOfPreamble).trim().isEmpty();
+        boolean blankSeparated = lines.get(endOfPreamble).trim().isEmpty();
 
         return new DocumentPreamble(currentNamespace, namespaceRange, idlVersion, operationInputSuffix,
                 operationOutputSuffix, useBlockRange, imports, blankSeparated);
