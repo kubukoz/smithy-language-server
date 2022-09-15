@@ -271,6 +271,9 @@ public final class SmithyProject {
     ) {
         for (Map.Entry<ShapeId, List<MemberShape>> entry : containerMembersMap.entrySet()) {
             Location containerLocation = locations.get(entry.getKey());
+            if (containerLocation == null) {
+                continue;
+            }
             Range containerLocationRange = containerLocation.getRange();
             int memberEndMarker = containerLocationRange.getEnd().getLine();
             // Keep track of previous line to make sure that end marker has been advanced.
