@@ -9,12 +9,13 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    name: Java ${{ matrix.java }} ${{ matrix.os }}
     strategy:
       matrix:
         java: [8, 11]
         os: [ubuntu-latest, windows-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+    name: Java ${{ matrix.java }} ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v3
@@ -28,6 +29,11 @@ jobs:
         run: ./gradlew clean build -Plog-tests
 
   publish:
+    strategy:
+      matrix:
+        java: [11]
+        os: [ubuntu-latest]
+
     name: Publish
     needs: [build]
     if: github.event_name != 'pull_request' && ((github.ref == 'refs/heads/dss') || startsWith(github.ref, 'refs/tags/v'))
