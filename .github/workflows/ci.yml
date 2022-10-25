@@ -17,12 +17,12 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v1
+        uses: coursier/setup-action@v1
         with:
-          java-version: ${{ matrix.java }}
+          jvm: adoptium:${{ matrix.java }}
 
       - name: Clean and build
         run: ./gradlew clean build -Plog-tests
@@ -34,12 +34,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Setup mill
+      - name: Set up JDK ${{ matrix.java }}
+        uses: coursier/setup-action@v1
+        with:
+          jvm: adoptium:${{ matrix.java }}
+
+      - name: Get mill version
+        run: echo "MILL_VERSION=$(cat .mill-version)" >> $GITHUB_ENV
+
+      - name: Setup Mill
         uses: jodersky/setup-mill@master
         with:
-          mill-version: 0.10.3
+          mill-version: ${{ env.MILL_VERSION }}
 
       - name: Cache mill
         uses: coursier/cache-action@v6
