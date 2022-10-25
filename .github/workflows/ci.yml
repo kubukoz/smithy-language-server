@@ -40,14 +40,7 @@ jobs:
         uses: coursier/setup-action@v1
         with:
           jvm: adoptium:${{ matrix.java }}
-
-      - name: Get mill version
-        run: echo "MILL_VERSION=$(cat .mill-version)" >> $GITHUB_ENV
-
-      - name: Setup Mill
-        uses: jodersky/setup-mill@master
-        with:
-          mill-version: ${{ env.MILL_VERSION }}
+          apps: mill
 
       - name: Cache mill
         uses: coursier/cache-action@v6
